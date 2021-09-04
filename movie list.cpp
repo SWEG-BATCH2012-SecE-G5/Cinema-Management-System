@@ -1,3 +1,6 @@
+//this segment of code is still unfinished..
+// its better if we add a search function,and sort it with genre and release date
+
 #include <iostream>
 
 using namespace std;
