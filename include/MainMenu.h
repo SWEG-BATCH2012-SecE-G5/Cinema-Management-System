@@ -5,71 +5,72 @@
 
 #include "Movie.h"
 #include "Customer.h"
+#include "CinemaHall.h"
+#include "CustomerManagement.h"
+#include "MovieManagement.h"
+#include "CinemaManagement.h"
 
-// MOVIE INITIALIZATION
-int movieCount = 1;
-bool movieRegistered = false;
-Movie *movies = new Movie[movieCount];
+// Container that stores all movie info
+MovieList movieList;
 
-// CUSTOMER INITIALIZATION
-int customerCount = 1;
-bool customerRegistered = false;
-Customer *customers = new Customer[customerCount];
+// Container that stores all customer info
+CustomerList customerList;
 
-#include "MovieRegistration.h"
-#include "CustomerRegistration.h"
-#include "CustomerList.h"
+// Container that stores all cinema hall info, initialized
+// with three slots for the day for each cinema hall
+CinemaHall cinemaHall;
 
 using namespace std;
 
 void mainMenu()
 {
+    cinemaHall.init();
+
+    START_MAIN:
     system("clear");
 
     cout << "##############################################" << endl << endl;
     cout << "######### CINEMA REGISTRATION SYSTEM #########" << endl << endl;
     cout << "##############################################" << endl;
-    cout << "# 1. MOVIE REGISTRATION                      #" << endl;
-    cout << "# 2. CUSTOMER REGISTRATION                   #" << endl;
-    cout << "# 3. MOVIES LIST                             #" << endl;
-    cout << "# 4. CUSTOMER LIST                           #" << endl;
-    cout << "# 5. SEAT REGISTRATION                       #" << endl;
-    cout << "# 6. DAILY PROFIT REPORT                     #" << endl;
-    cout << "# 7. QUIT                                    #" << endl;
+    cout << "# 1. LIST OF MOVIES                          #" << endl;
+    cout << "# 2. LIST OF CUSTOMERS                       #" << endl;
+    cout << "# 3. CINEMA HALLS & SEAT RESERVATION         #" << endl;
+    cout << "# 4. DAILY PROFIT REPORT                     #" << endl;
+    cout << "# 5. QUIT                                    #" << endl;
     cout << "##############################################" << endl;
 
-INPUT0:
+INPUT10:
     cout << "\n > "; unsigned choice; cin >> choice;
 
     switch (choice)
     {
     case 1:
-        movie_registration(movies, movieRegistered);
-        mainMenu();
+        movieList.movie_menu();
+        goto START_MAIN;
         break;
+
     case 2:
-        customer_registration(customers, customerRegistered);
-        mainMenu();
+        customerList.customer_menu();
+        goto START_MAIN;
         break;
+
     case 3:
-        // movie_list(movies, movieCount);
+        cinema_menu(cinemaHall, movieList, customerList);
+        goto START_MAIN;
         break;
+
     case 4:
-        customer_list(customers, customerCount, customerRegistered);
-        mainMenu();
+        daily_profit_report(cinemaHall, movieList);
+        goto START_MAIN;
         break;
+
     case 5:
-        // seat_reservation();
+        cout << "\nClosing..." << endl;
         break;
-    case 6:
-        // profit_report();
-        break;
-    case 7:
-        cout << "Closing..." << endl;
-        return;
+
     default:
-        cout << "\nInvalid Input. Try again." << endl;
-        goto INPUT0;
+        cout << "\nInvalid input, Try again." << endl;
+        goto INPUT10;
     }
 }
 
