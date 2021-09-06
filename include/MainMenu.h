@@ -24,6 +24,7 @@ using namespace std;
 
 void mainMenu()
 {
+    // Make some space for data in the memory
     cinemaHall.init();
 
     START_MAIN:

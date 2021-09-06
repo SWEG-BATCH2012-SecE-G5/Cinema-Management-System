@@ -5,7 +5,7 @@
 
 struct Customer {
     std::string name;
-    int id, age;
+    int age, id;
 };
 
 #endif // CUSTOMER_H

@@ -70,8 +70,6 @@ void CustomerList::register_customer()
     std::cout << "Enter customer name : "; std::cin >> customer.name;
     std::cout << "Enter customer age: "; std::cin >> customer.age;
 
-    customer.id = customer_id++;
-
     add_customer(customer);
 
     if (customer_count == 1) customer_menu(); // Initializer, automatically
@@ -84,6 +82,7 @@ void CustomerList::add_customer(Customer &customer)
     {
         customer_count++;
         customer_list = new Customer[customer_count];
+        customer.id = customer_id++;
 
         *customer_list = customer;
     }
@@ -95,6 +94,7 @@ void CustomerList::add_customer(Customer &customer)
         {
             *(copy + i) = *(customer_list + i);
         }
+        customer.id = customer_id++;
         *(copy + customer_count) = customer;
 
         // free currently used memory
