@@ -14,7 +14,7 @@ bool date_checks_out(Movie&, Date&);
 void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 {
     START_CINEMA:
-    system ("cls");
+    system ("clear");
 
     std::cout << "1. Slots for the day" << std::endl;
     std::cout << "2. Seat Reservations" << std::endl;
@@ -24,10 +24,10 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
     std::cout << "\n > "; int choice; std::cin >> choice;
     switch (choice)
     {
-    case 1:
+    case 1: 
         if (hall.current_count == 0)
         {
-            system ("cls");
+            system ("clear");
 
             std::cout << "Seems like you don't have any movies in the slot yet. Care to add one?" << std::endl;
             std::cout << "1. Add a movie to the slot" << std::endl;
@@ -55,7 +55,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
         else
         {
-            system ("cls");
+            system ("clear");
 
             hall.display_slots();
 
@@ -89,7 +89,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
                         }
                         else // if it's out of date, either early or expired
                         {
-                            system ("cls");
+                            system ("clear");
 
                             std::cout << "Movie is out of date." << std::endl;
                             std::cout << "\n1. Return to main menu" << std::endl;
@@ -122,9 +122,9 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
                 }
                 break;
             }
-            case 3:
+            case 3: 
                 break;
-
+            
             case 4:
                 std::cout << "Invalid input, try again." << std::endl;
                 goto INPUT13;
@@ -132,9 +132,9 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
         }
         break; // SLOTS FOR THE DAY
-
+    
     case 2:
-        system ("cls");
+        system ("clear");
 
         std::cout << "Enter the slot number: "; int slot_num; std::cin >> slot_num;
         if (hall.exists(slot_num-1))
@@ -150,7 +150,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
         }
 
         INPUT11:
-        system ("cls");
+        system ("clear");
         hall.display_arrangement(slot_num);
 
         std::cout << "1. Reserve a seat" << std::endl;
@@ -163,7 +163,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
         case 1:
             if (customers.get_count() == 0)
             {
-                system("cls");
+                system("clear");
 
                 std::cout << "There are no customers registered yet." << std::endl;
                 std::cout << "1. Return to previous menu" << std::endl;
@@ -174,7 +174,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
             while (choice < 1000 || choice > customers.customer_id)
             {
                 std::cout << "Invalid input, try again." << std::endl;
-                std::cout << "\nEnter customer ID: " ; std::cin >> choice;
+                std::cout << "\nEnter customer ID: " ; std::cin >> choice; 
             }
 
             Customer *current;
@@ -187,7 +187,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
             }
             if (hall.movie_slots[slot_num-1].ratingPg.viewerAge > current->age)
             {
-                system ("cls");
+                system ("clear");
 
                 std::cout << "The customer is too young for this movie." << std::endl;
                 std::cout << "1. Return to previous menu" << std::endl;
@@ -195,9 +195,15 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
                 goto INPUT11;
             }
             else
-            {
+            {   
                 INPUT12:
                 std::cout << "Row and column: "; int row, col; std::cin >> row >> col;
+                while (row > 8 || col > 8)
+                {
+                    std::cout << "\nInvalid input, try again.\n" << std::endl;
+                    std::cout << "Row and column: "; std::cin >> row >> col; 
+                }
+
                 if (hall.seat_arrangements[slot_num - 1][row-1][col-1] == 0)
                 {
                     hall.seat_arrangements[slot_num - 1][row-1][col-1] = current->id;
@@ -214,7 +220,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
                     case 1:
                         goto INPUT12;
                         break;
-
+                    
                     default:
                         break;
                     }
@@ -223,6 +229,12 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
         case 2:
             std::cout << "Enter row and column: "; int row, col; std::cin >> row >> col;
+            while (row > 8 || col > 8)
+            {
+                    std::cout << "\nInvalid input, try again.\n" << std::endl;
+                    std::cout << "Row and column: "; std::cin >> row >> col; 
+            }
+            
             if (hall.seat_arrangements[slot_num - 1][row-1][col-1] != 0)
             {
                 hall.seat_arrangements[slot_num - 1][row-1][col-1] = 0;
@@ -230,7 +242,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
             }
         }
         break; // SEAT RESERVATIONS
-
+    
     case 3:
         break;
 
@@ -242,7 +254,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
 void daily_profit_report(CinemaHall &hall, MovieList &movies)
 {
-    system ("cls");
+    system ("clear");
 
     if (hall.current_count == 0)
     {
@@ -255,9 +267,9 @@ void daily_profit_report(CinemaHall &hall, MovieList &movies)
     std::cout << '|' << std::setw(8) << "Slot No." << '|'
                 << std::setw(19) << "Movie to be watched" << '|'
                 << std::setw(25) << "Price for a single ticket" << '|'
-                << std::setw(17) << "Number of Viewers" << '|'
+                << std::setw(17) << "Number of Viewers" << '|' 
                 << std::setw(13) << "Total Revenue" << '|' << std::endl;
-    std::cout << "########################################################################################" << std::endl;
+    std::cout << "########################################################################################" << std::endl; 
     int total_revenue = 0;
     for (int i = 0; i < hall.current_count; i++)
     {
@@ -276,11 +288,11 @@ void daily_profit_report(CinemaHall &hall, MovieList &movies)
                     << std::setw(25) << hall.movie_slots[i].price << '|'
                     << std::setw(17) << total_viewers << '|'
                     << std::setw(13) << slot_revenue << '|' << std::endl;
-
+        
         total_revenue += slot_revenue;
     }
     std::cout << "########################################################################################" << std::endl;
-    std::cout << std::setw(87) << "Total revenue for the day: " + std::to_string(total_revenue) + '.' + std::to_string(total_revenue - std::stoi(std::to_string(total_revenue)))<< std::endl;
+    std::cout << std::setw(87) << "Total revenue for the day: " + std::to_string(total_revenue) + '.' + std::to_string(total_revenue - std::stof(std::to_string(total_revenue)))<< std::endl; 
 
     std::cout << "\n1. Return to main menu" << std::endl;
     std::cout << "\n > "; int choice; std::cin >> choice;
@@ -289,12 +301,12 @@ void daily_profit_report(CinemaHall &hall, MovieList &movies)
 
 bool date_checks_out(Movie &movie, Date &date)
 {
-    // First check if the release date of the movie is or equal to today's date
+    // First check if the release date of the movie is or equal to or less than today's date
     if ((movie.entryDate.year <= date.year && movie.entryDate.month <= date.month && movie.entryDate.day <= date.day)
         || (movie.entryDate.year <= date.year && movie.entryDate.month < date.month && movie.entryDate.day > date.day)
         || (movie.entryDate.year < date.year && movie.entryDate.month > date.month && movie.entryDate.day > date.day))
     {
-        // If it passes, it checks if the expiry date of the movie is equal or less than that of today's date
+        // If it passes, it checks if the expiry date of the movie is equal or greater than that of today's date
         if ((movie.exitDate.year >= date.year && movie.exitDate.month >= date.month && movie.exitDate.day >= date.day)
             || (movie.exitDate.year >= date.year && movie.exitDate.month > date.month && movie.exitDate.day < date.day)
             || (movie.exitDate.year > date.year && movie.exitDate.month < date.month && movie.exitDate.day > date.day))
