@@ -10,7 +10,10 @@
 struct CinemaHall {
     int id;
 
+    // The maximum amount of slots that are to be allowed for the day
     int movie_count = 3;
+
+    // amount of movies currently in slots
     int current_count = 0;
 
     Movie *movie_slots;
@@ -144,6 +147,9 @@ void CinemaHall::remove_slot(int slot_num)
 
 void CinemaHall::display_arrangement(int slot_num)
 {
+    // An 8 by 8 layout is used
+    // id of the customer who reserved the seat is used as a place-holder of the seat
+    // otherwise is left with blank
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
