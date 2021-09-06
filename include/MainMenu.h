@@ -27,7 +27,7 @@ void mainMenu()
     cinemaHall.init();
 
     START_MAIN:
-    system("clear");
+    system ("cls");
 
     cout << "##############################################" << endl << endl;
     cout << "######### CINEMA REGISTRATION SYSTEM #########" << endl << endl;

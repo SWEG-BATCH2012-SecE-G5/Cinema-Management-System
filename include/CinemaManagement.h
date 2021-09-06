@@ -14,7 +14,7 @@ bool date_checks_out(Movie&, Date&);
 void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 {
     START_CINEMA:
-    system ("clear");
+    system ("cls");
 
     std::cout << "1. Slots for the day" << std::endl;
     std::cout << "2. Seat Reservations" << std::endl;
@@ -27,7 +27,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
     case 1: 
         if (hall.current_count == 0)
         {
-            system ("clear");
+            system ("cls");
 
             std::cout << "Seems like you don't have any movies in the slot yet. Care to add one?" << std::endl;
             std::cout << "1. Add a movie to the slot" << std::endl;
@@ -55,7 +55,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
         else
         {
-            system ("clear");
+            system ("cls");
 
             hall.display_slots();
 
@@ -89,7 +89,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
                         }
                         else // if it's out of date, either early or expired
                         {
-                            system ("clear");
+                            system ("cls");
 
                             std::cout << "Movie is out of date." << std::endl;
                             std::cout << "\n1. Return to main menu" << std::endl;
@@ -134,7 +134,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
         break; // SLOTS FOR THE DAY
     
     case 2:
-        system ("clear");
+        system ("cls");
 
         std::cout << "Enter the slot number: "; int slot_num; std::cin >> slot_num;
         if (hall.exists(slot_num-1))
@@ -150,7 +150,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
         }
 
         INPUT11:
-        system ("clear");
+        system ("cls");
         hall.display_arrangement(slot_num);
 
         std::cout << "1. Reserve a seat" << std::endl;
@@ -163,7 +163,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
         case 1:
             if (customers.get_count() == 0)
             {
-                system("clear");
+                system ("cls");
 
                 std::cout << "There are no customers registered yet." << std::endl;
                 std::cout << "1. Return to previous menu" << std::endl;
@@ -187,7 +187,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
             }
             if (hall.movie_slots[slot_num-1].ratingPg.viewerAge > current->age)
             {
-                system ("clear");
+                system ("cls");
 
                 std::cout << "The customer is too young for this movie." << std::endl;
                 std::cout << "1. Return to previous menu" << std::endl;
@@ -254,7 +254,7 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
 void daily_profit_report(CinemaHall &hall, MovieList &movies)
 {
-    system ("clear");
+    system ("cls");
 
     if (hall.current_count == 0)
     {

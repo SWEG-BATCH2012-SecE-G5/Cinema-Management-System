@@ -63,7 +63,7 @@ Customer *CustomerList::find_customer(int id)
 }
 void CustomerList::register_customer()
 {
-    system("clear");
+    system ("cls");
 
     Customer customer;
 
@@ -118,7 +118,7 @@ void CustomerList::add_customer(Customer &customer)
 
 void CustomerList::modify_customer(unsigned &index)
 {
-    system ("clear");
+    system ("cls");
 
     Customer *current = customer_list + index;
 
@@ -208,7 +208,7 @@ void CustomerList::delete_customer(unsigned &index)
 
 void CustomerList::sort_by()
 {
-    system("clear");
+    system ("cls");
 
     std::cout << "1. Age" << std::endl;
     std::cout << "2. Return to previous menu" << std::endl;
@@ -221,7 +221,7 @@ void CustomerList::sort_by()
     case 1: 
         std::cout << "Enter the minimum age: "; unsigned m_age; std::cin >> m_age;
 
-        system ("clear");
+        system ("cls");
 
         std::cout << "#####################################" << std::endl;
         std::cout << '|' << std::setw(5) << "ID"
@@ -268,7 +268,7 @@ void CustomerList::sort_by()
 void CustomerList::customer_menu()
 {
     START_CUSTOMER:
-    system ("clear");
+    system ("cls");
 
     if (customer_count) // If customer(s) exist already...
     {
@@ -341,7 +341,7 @@ void CustomerList::customer_menu()
     }
     else // no customers yet
     {
-        system("clear");
+        system ("cls");
 
         std::cout << "Seems like you haven't added any customers yet. Care to add one?" << std::endl << std::endl;
         std::cout << "1. Register customer" << std::endl;
