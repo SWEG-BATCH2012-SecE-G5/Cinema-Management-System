@@ -309,7 +309,7 @@ bool date_checks_out(Movie &movie, Date &date)
         // If it passes, it checks if the expiry date of the movie is equal or greater than that of today's date
         if ((movie.exitDate.year >= date.year && movie.exitDate.month >= date.month && movie.exitDate.day >= date.day)
             || (movie.exitDate.year >= date.year && movie.exitDate.month > date.month && movie.exitDate.day < date.day)
-            || (movie.exitDate.year > date.year && movie.exitDate.month < date.month && movie.exitDate.day > date.day))
+            || (movie.exitDate.year > date.year && movie.exitDate.month < date.month && movie.exitDate.day < date.day))
         {
             return true;
         }
