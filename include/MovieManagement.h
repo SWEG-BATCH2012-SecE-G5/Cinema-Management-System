@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cctype>
 
 // We are going to use a struct that manages everything
 // the manager might need to interact with their movie database, 
@@ -46,8 +47,9 @@ void MovieList::register_movie()
     system ("cls");
 
     Movie movie;
-
-    std::cout << "Enter movie name (Underscores (_) instead of spaces): "; std::cin >> movie.name;
+    
+    cin.ignore();
+    std::cout << "Enter movie name: "; std::getline(std::cin,movie.name);
     std::cout << "Enter movie genre: "; std::cin >> movie.genre;
     std::cout << "Enter movie price: "; std::cin >> movie.price;
 
@@ -124,7 +126,8 @@ void MovieList::modify_movie(unsigned &index)
     switch(choice)
     {
     case 1:
-        std::cout << "New name: "; std::cin >> current->name;
+        std::cin.ignore();
+        std::cout << "New name: "; std::getline(cin,current->name);
         break;
     
     case 2:
