@@ -51,7 +51,18 @@ void MovieList::register_movie()
     cin.ignore();
     std::cout << "Enter movie name: "; std::getline(std::cin,movie.name);
     std::cout << "Enter movie genre: "; std::cin >> movie.genre;
-    std::cout << "Enter movie price: "; std::cin >> movie.price;
+    std::cout << "Enter movie price: "; 
+    
+    //checks for invalid entries
+            int invalidCounter=0;
+            while(!(std::cin >> movie.price))
+            {
+             invalidCounter++;
+                if(invalidCounter==1){
+                    std::cout<<"\nInvalid Input!!! please insert Numbers only: ";
+                    std::cin.clear();
+                    std::cin.ignore();
+            };
 
     std::cout << "Enter movie release date, separated by spaces (DD/MM/YYYY): ";
     std::cin >> movie.entryDate.day >> movie.entryDate.month >> movie.entryDate.year;
