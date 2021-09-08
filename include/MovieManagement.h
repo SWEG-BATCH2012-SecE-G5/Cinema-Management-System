@@ -47,7 +47,8 @@ void MovieList::register_movie()
 
     Movie movie;
 
-    std::cout << "Enter movie name (Underscores (_) instead of spaces): "; std::cin >> movie.name;
+    std::cin.ignore();
+    std::cout << "Enter movie name: "; std::getline(std::cin, movie.name);
     std::cout << "Enter movie genre: "; std::cin >> movie.genre;
     std::cout << "Enter movie price: "; std::cin >> movie.price;
 
@@ -124,7 +125,8 @@ void MovieList::modify_movie(unsigned &index)
     switch(choice)
     {
     case 1:
-        std::cout << "New name: "; std::cin >> current->name;
+        std::cin.ignore();
+        std::cout << "New name: "; std::getline(std::cin, current->name);
         break;
     
     case 2:

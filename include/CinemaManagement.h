@@ -37,7 +37,9 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
             switch (choice)
             {
             case 1: {
-                std::cout << "Enter the name of the movie: "; std::string m_name; std::cin >> m_name;
+                std::cout << "Enter the name of the movie: "; std::string m_name;
+                std::cin.ignore(); std::getline(std::cin, m_name);
+
                 for (int i = 0; i < movies.get_count(); i++)
                 {
                     if (movies.movie_list[i].name == m_name)
@@ -78,7 +80,8 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
 
                 Date today_date {day, month, year};
 
-                std::cout << "Enter the name of the movie: "; std::string m_name; std::cin >> m_name;
+                std::cout << "Enter the name of the movie: "; std::string m_name; 
+                std::cin.ignore(); std::getline(std::cin, m_name);
                 for (int i = 0; i < movies.get_count(); i++)
                 {
                     if (movies.movie_list[i].name == m_name)
@@ -102,7 +105,8 @@ void cinema_menu(CinemaHall& hall, MovieList& movies, CustomerList& customers)
                 break;
             }
             case 2: {
-                std::cout << "Enter the name of the movie: "; std::string name; std::cin >> name;
+                std::cout << "Enter the name of the movie: "; std::string name;
+                std::cin.ignore(); std::getline(std::cin, name);
                 int del_slot;
                 for (int i = 0; i < movies.get_count(); i++)
                 {

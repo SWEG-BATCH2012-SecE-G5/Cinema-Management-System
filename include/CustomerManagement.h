@@ -67,7 +67,8 @@ void CustomerList::register_customer()
 
     Customer customer;
 
-    std::cout << "Enter customer name : "; std::cin >> customer.name;
+    std::cin.ignore();
+    std::cout << "Enter customer name : "; std::getline(std::cin, customer.name);
     std::cout << "Enter customer age: "; std::cin >> customer.age;
 
     add_customer(customer);
@@ -133,7 +134,8 @@ void CustomerList::modify_customer(unsigned &index)
     switch(choice)
     {
     case 1:
-        std::cout << "New name: "; std::cin >> current->name;
+        std::cin.ignore();
+        std::cout << "New name: "; std::getline(std::cin, current->name);
         break;
     
     case 2:

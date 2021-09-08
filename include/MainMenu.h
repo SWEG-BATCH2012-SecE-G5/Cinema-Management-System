@@ -20,12 +20,36 @@ CustomerList customerList;
 // with three slots for the day for each cinema hall
 CinemaHall cinemaHall;
 
+// Initialize movies and customers
+Movie movies[] = {
+    {"Wife of a Spy", "Action", 150, Date{6, 9, 2021}, Date{5, 10, 2021}, Rating{7.6, 14}},
+    {"Free Guy", "Comedy", 130, Date{25, 8, 2021}, Date{25, 9, 2021}, Rating{6.9, 17}},
+    {"Ye Arada Lij 12", "Comedy", 140, Date{22, 9, 2021}, Date{16, 11, 2021}, Rating{10, 12}},
+    {"Knives Out", "Crime", 160, Date{10, 2, 2020}, Date{14, 4, 2020}, Rating{9.1, 13}},
+    {"Yekebere Deha", "Drama", 150, Date{3, 8, 2021}, Date{4, 10, 2021}, Rating{8.2, 13}}
+};
+
+Customer customers[] = {
+    {"Abebe Balcha", 90},
+    {"Lemma Alemu", 12},
+    {"Samrawit Mitiku", 23},
+    {"Mamush Tadesse", 6},
+    {"Helen Assefa", 45}
+};
+
 using namespace std;
 
 void mainMenu()
 {
     // Make some space for data in the memory
     cinemaHall.init();
+
+    // Initialize the database
+    for (int i = 0; i < 5; i++)
+    {
+        movieList.add_movie(movies[i]);
+        customerList.add_customer(customers[i]);
+    }
 
     START_MAIN:
     system ("cls");
