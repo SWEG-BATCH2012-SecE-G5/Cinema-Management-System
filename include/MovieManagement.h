@@ -6,12 +6,14 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cctype>
 
 // We are going to use a struct that manages everything
-// the manager might need to interact with their movie database, 
-// including dynamically add new movies to the list, modifying them, 
+// the manager might need to interact with their movie database,
+// including dynamically add new movies to the list, modifying them,
 // deleting them, etc...
-
+  //A function for checking interger entries(not character)
+    inline void integer_Input(auto *);
 struct MovieList {
     // This is where the movies will be kept
     Movie *movie_list;
@@ -38,6 +40,8 @@ struct MovieList {
     // Menu for accessing the functions above
     void movie_menu();
 
+
+
     unsigned &get_count() { return movie_count; }
 };
 
@@ -48,18 +52,26 @@ void MovieList::register_movie()
     Movie movie;
 
     std::cin.ignore();
-    std::cout << "Enter movie name: "; std::getline(std::cin, movie.name);
+    std::cout << "Enter movie name: "; std::getline(std::cin,movie.name);
     std::cout << "Enter movie genre: "; std::cin >> movie.genre;
-    std::cout << "Enter movie price: "; std::cin >> movie.price;
+    std::cout << "Enter movie price: ";
+    //for taking values with a datatype that was declared at the time of declaration
+    integer_Input(&(movie.price));
 
     std::cout << "Enter movie release date, separated by spaces (DD/MM/YYYY): ";
-    std::cin >> movie.entryDate.day >> movie.entryDate.month >> movie.entryDate.year;
+        integer_Input(&(movie.entryDate.day));
+        integer_Input(&(movie.entryDate.month));
+        integer_Input(&(movie.entryDate.year));
 
     std::cout << "Enter the date this movie goes out of cinema, separated by spaces (DD/MM/YYYY): ";
-    std::cin >> movie.exitDate.day >> movie.exitDate.month >> movie.exitDate.year;
-    
-    std::cout << "Enter viewer rating out of 10: "; std::cin >> movie.ratingPg.movieRating;
-    std::cout << "Enter the movie's PG rating: "; std::cin >> movie.ratingPg.viewerAge;
+        integer_Input(&(movie.exitDate.day));
+        integer_Input(&(movie.exitDate.month));
+        integer_Input(&(movie.exitDate.year));
+
+    std::cout << "Enter viewer rating out of 10: ";
+        integer_Input(&(movie.ratingPg.movieRating));
+    std::cout << "Enter the movie's PG rating: ";
+        integer_Input(&(movie.ratingPg.viewerAge));
 
     add_movie(movie);
 
@@ -78,7 +90,7 @@ void MovieList::add_movie(Movie &movie)
     else
     {
         // Make a copy that can handle the current amount of movies
-        Movie *copy = new Movie[movie_count + 1]; 
+        Movie *copy = new Movie[movie_count + 1];
         for (int i = 0; i < movie_count; i++)
         {
             *(copy + i) = *(movie_list + i);
@@ -87,7 +99,7 @@ void MovieList::add_movie(Movie &movie)
 
         // free currently used memory
         delete[] movie_list;
-        movie_list = nullptr; 
+        movie_list = nullptr;
 
         // Make the movie_list point to an array that can hold
         // the required amount of movie data
@@ -101,7 +113,7 @@ void MovieList::add_movie(Movie &movie)
         // release memory held by the copy
         delete[] copy;
         copy = nullptr;
-    }   
+    }
 }
 
 void MovieList::modify_movie(unsigned &index)
@@ -128,33 +140,44 @@ void MovieList::modify_movie(unsigned &index)
         std::cin.ignore();
         std::cout << "New name: "; std::getline(std::cin, current->name);
         break;
-    
+
     case 2:
         std::cout << "New genre: "; std::cin >> current->genre;
         break;
-    
+
     case 3:
-        std::cout << "New price: "; std::cin >> current->price;
+        std::cout << "New price: "; integer_Input(&(current->price));
         break;
-    
+
     case 4:
-        std::cout << "Release day, month, year: ";
-        std::cin >> current->entryDate.day >> current->entryDate.month >> current->entryDate.year;
+        std::cout << "Release day: ";
+            integer_Input(&(current->entryDate.day));
+        std::cout<< "Release month: ";
+            integer_Input(&(current->entryDate.month));
+        std::cout<< "Release year: ";
+            integer_Input(&(current->entryDate.year));
         break;
-    
+
     case 5:
-        std::cout << "Expiry day, month, year: ";
-        std::cin >> current->exitDate.day >> current->exitDate.month >> current->exitDate.year;
+        std::cout << "Expiry day: ";
+            integer_Input(&(current->exitDate.day));
+        std::cout << "Expiry month: ";
+            integer_Input(&(current->exitDate.month));
+        std::cout << "Expiry year: ";
+            integer_Input(&(current->exitDate.year));
         break;
-    
+
     case 6:
-        std::cout << "Viewer rating and PG: "; std::cin >> current->ratingPg.movieRating >> current->ratingPg.viewerAge;
+        std::cout << "Viewer rating: ";
+            integer_Input(&(current->ratingPg.movieRating));
+        std::cout << "PG: ";
+            integer_Input(&(current->ratingPg.viewerAge));
         break;
-    
+
     case 7:
         return;
         break;
-    
+
     default:
         std::cout << "Invalid input, try again." << std::endl;
         goto INPUT0;
@@ -199,7 +222,7 @@ void MovieList::delete_movie(unsigned &index)
     movie_list = new Movie[movie_count];
 
     // All that's left is to stich it back
-    // and return the resultant data 
+    // and return the resultant data
     // to the main container
     for (int i = 0; i < l_size; i++)
     {
@@ -226,7 +249,7 @@ void MovieList::sort_by()
     std::cout << "4. Return to previous menu" << std::endl;
 
     std::cout << "\n > "; unsigned choice; std::cin >> choice;
-    
+
     // Filters out the stock based on the different attributes
     switch (choice)
     {
@@ -235,7 +258,7 @@ void MovieList::sort_by()
 
         std::cout << "Enter the preferred genre: "; std::string p_genre; std::cin >> p_genre;
 
-        int id_num = 1; 
+        int id_num = 1;
 
         std::cout << "###########################################################################" << std::endl;
         std::cout << '|' << std::setw(3) << "ID" << '|'
@@ -250,12 +273,12 @@ void MovieList::sort_by()
 
         for (int i = 0; i < movie_count; i++)
         {
-            if (movie_list[i].genre == p_genre) 
+            if (movie_list[i].genre == p_genre)
             {
                std::cout << '|' << std::setw(3) << id_num++ << '|'
                     << std::setw(20) << movie_list[i].name << '|'
                     << std::setw(10) << movie_list[i].genre << '|'
-                    << std::setw(4) << movie_list[i].price << '|' 
+                    << std::setw(4) << movie_list[i].price << '|'
                     << std::setw(10) << std::to_string(movie_list[i].entryDate.day) + '/'
                                       + std::to_string(movie_list[i].entryDate.month) + '/'
                                       + std::to_string(movie_list[i].entryDate.year) << '|'
@@ -263,13 +286,13 @@ void MovieList::sort_by()
                                       + std::to_string(movie_list[i].exitDate.month) + '/'
                                       + std::to_string(movie_list[i].exitDate.year) << '|'
                     << std::setw(6) << movie_list[i].ratingPg.movieRating << '|'
-                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;  
+                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;
             }
         }
         std::cout << "###########################################################################" << std::endl << std::endl;
-        
+
         std::cout << "1. Return to previous menu" << std::endl;
-        
+
         INPUT1:
         std::cout << "\n > "; std::cin >> choice;
 
@@ -277,7 +300,7 @@ void MovieList::sort_by()
         {
         case 1:
             break;
-        
+
         default:
             std::cout << "Invalid input, try again." << std::endl;
             goto INPUT1;
@@ -290,7 +313,7 @@ void MovieList::sort_by()
 
         std::cout << "Enter the price cap: "; float p_cap; std::cin >> p_cap;
 
-        int id_num = 1; 
+        int id_num = 1;
 
         std::cout << "###########################################################################" << std::endl;
         std::cout << '|' << std::setw(3) << "ID" << '|'
@@ -305,12 +328,12 @@ void MovieList::sort_by()
 
         for (int i = 0; i < movie_count; i++)
         {
-            if (movie_list[i].price <= p_cap) 
+            if (movie_list[i].price <= p_cap)
             {
                std::cout << '|' << std::setw(3) << id_num++ << '|'
                     << std::setw(20) << movie_list[i].name << '|'
                     << std::setw(10) << movie_list[i].genre << '|'
-                    << std::setw(4) << movie_list[i].price << '|' 
+                    << std::setw(4) << movie_list[i].price << '|'
                     << std::setw(10) << std::to_string(movie_list[i].entryDate.day) + '/'
                                       + std::to_string(movie_list[i].entryDate.month) + '/'
                                       + std::to_string(movie_list[i].entryDate.year) << '|'
@@ -318,13 +341,13 @@ void MovieList::sort_by()
                                       + std::to_string(movie_list[i].exitDate.month) + '/'
                                       + std::to_string(movie_list[i].exitDate.year) << '|'
                     << std::setw(6) << movie_list[i].ratingPg.movieRating << '|'
-                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;  
+                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;
             }
         }
         std::cout << "###########################################################################" << std::endl << std::endl;
-        
+
         std::cout << "1. Return to previous menu" << std::endl;
-        
+
         INPUT2:
         std::cout << "\n > "; std::cin >> choice;
 
@@ -333,7 +356,7 @@ void MovieList::sort_by()
         case 1:
             return;
             break;
-        
+
         default:
             std::cout << "Invalid input, try again." << std::endl;
             goto INPUT2;
@@ -345,7 +368,7 @@ void MovieList::sort_by()
         system ("cls");
         std::cout << "Enter the minimum age requirement: "; float m_age; std::cin >> m_age;
 
-        int id_num = 1; 
+        int id_num = 1;
 
         std::cout << "###########################################################################" << std::endl;
         std::cout << '|' << std::setw(3) << "ID" << '|'
@@ -360,12 +383,12 @@ void MovieList::sort_by()
 
         for (int i = 0; i < movie_count; i++)
         {
-            if (movie_list[i].ratingPg.viewerAge >= m_age) 
+            if (movie_list[i].ratingPg.viewerAge >= m_age)
             {
                std::cout << '|' << std::setw(3) << id_num++ << '|'
                     << std::setw(20) << movie_list[i].name << '|'
                     << std::setw(10) << movie_list[i].genre << '|'
-                    << std::setw(4) << movie_list[i].price << '|' 
+                    << std::setw(4) << movie_list[i].price << '|'
                     << std::setw(10) << std::to_string(movie_list[i].entryDate.day) + '/'
                                       +  std::to_string(movie_list[i].entryDate.month) + '/'
                                       +  std::to_string(movie_list[i].entryDate.year) << '|'
@@ -373,13 +396,13 @@ void MovieList::sort_by()
                                       +  std::to_string(movie_list[i].exitDate.month) + '/'
                                       +  std::to_string(movie_list[i].exitDate.year) << '|'
                     << std::setw(6) << movie_list[i].ratingPg.movieRating << '|'
-                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;  
+                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;
             }
         }
         std::cout << "###########################################################################" << std::endl << std::endl;
-        
+
         std::cout << "1. Return to previous menu" << std::endl;
-        
+
         INPUT3:
         std::cout << "\n > "; std::cin >> choice;
 
@@ -387,7 +410,7 @@ void MovieList::sort_by()
         {
         case 1:
             break;
-        
+
         default:
             std::cout << "Invalid input, try again." << std::endl;
             goto INPUT3;
@@ -395,7 +418,7 @@ void MovieList::sort_by()
         }
         break;
     }
-    
+
     default:
         break;
     }
@@ -418,14 +441,14 @@ void MovieList::movie_menu()
                     << std::setw(10) << "Exp. Date" << '|'
                     << std::setw(6) << "Rating" << '|'
                     << std::setw(2) << "PG" << '|' << std::endl;
-        std::cout << "###########################################################################" << std::endl; 
+        std::cout << "###########################################################################" << std::endl;
 
         for (int i = 0; i < movie_count; i++)
         {
             std::cout << '|' << std::setw(3) << id_num++ << '|'
                     << std::setw(20) << movie_list[i].name << '|'
                     << std::setw(10) << movie_list[i].genre << '|'
-                    << std::setw(4) << movie_list[i].price << '|' 
+                    << std::setw(4) << movie_list[i].price << '|'
                     << std::setw(10) << std::to_string(movie_list[i].entryDate.day) + '/'
                                         + std::to_string(movie_list[i].entryDate.month) + '/'
                                         + std::to_string(movie_list[i].entryDate.year) << '|'
@@ -433,7 +456,7 @@ void MovieList::movie_menu()
                                         + std::to_string(movie_list[i].exitDate.month) + '/'
                                         + std::to_string(movie_list[i].exitDate.year) << '|'
                     << std::setw(6) << movie_list[i].ratingPg.movieRating << '|'
-                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl; 
+                    << std::setw(2) << movie_list[i].ratingPg.viewerAge << '|' << std::endl;
         }
 
         std::cout << "###########################################################################" << std::endl << std::endl;
@@ -452,7 +475,7 @@ void MovieList::movie_menu()
             register_movie();
             goto START_MOVIE;
             break;
-        
+
         case 2:
             std::cout << "Enter the ID of the movie: "; std::cin >> choice;
             while (choice > id_num || choice < 1)
@@ -464,7 +487,7 @@ void MovieList::movie_menu()
             modify_movie(choice);
             goto START_MOVIE;
             break;
-        
+
         case 3:
             std::cout << "Enter the ID of the movie: "; std::cin >> choice;
             while (choice > id_num || choice < 1)
@@ -476,7 +499,7 @@ void MovieList::movie_menu()
             delete_movie(choice);
             goto START_MOVIE;
             break;
-        
+
         case 4:
             sort_by();
             goto START_MOVIE;
@@ -507,14 +530,30 @@ void MovieList::movie_menu()
         case 1:
             register_movie();
             break;
-        
+
         case 2:
             break;
-        
+
         default:
             std::cout << "Invalid input, try again." << std::endl;
             goto INPUT5;
         }
-    }  
+    }
 }
+
+inline void integer_Input(auto *ToBeChecked)
+{
+    //int invalidCounter=0;
+    while(!(std::cin>>*ToBeChecked))
+    {
+        //invalidCounter++;
+      //  if(invalidCounter==1)
+        //{
+            std::cout<<"\nInvalid input!!! please insert Numbers only: ";
+            std::cin.clear();
+            std::cin.ignore();
+       // }
+    }
+}
+
 #endif // MOVIEMANAGEMENT_H
