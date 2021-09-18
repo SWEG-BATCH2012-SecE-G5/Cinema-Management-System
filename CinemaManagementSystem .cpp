@@ -150,7 +150,7 @@ int main()
     loadCinema();
 
     START_MAIN:
-    system ("clear");
+    system ("cls");
 
     cout << "##############################################" << endl << endl;
     cout << "######### CINEMA REGISTRATION SYSTEM #########" << endl << endl;
@@ -203,7 +203,7 @@ int main()
 void movieMenu()
 {
     START_MOVIE:
-    system ("clear");
+    system ("cls");
 
     if (!movieList.empty()) // If movies exist already...
     {
@@ -282,7 +282,7 @@ void movieMenu()
     }
     else // no movies yet
     {
-        system ("clear");
+        system ("cls");
 
         cout << "Seems like you haven't added any movies yet. Care to add one?" << endl << endl;
         cout << "1. Register movie" << endl;
@@ -308,7 +308,7 @@ void movieMenu()
 
 void registerMovie()
 {
-    system ("clear");
+    system ("cls");
 
     Movie movie;
 
@@ -331,7 +331,7 @@ void registerMovie()
 
 void modifyMovie(unsigned index)
 {
-    system ("clear");
+    system ("cls");
 
     Movie *current = &movieList[index];
 
@@ -390,7 +390,7 @@ void modifyMovie(unsigned index)
 
 void sortMoviesBy()
 {
-    system ("clear");
+    system ("cls");
 
     cout << "1. Name" << endl;
     cout << "2. Genre" << endl;
@@ -448,7 +448,7 @@ void sortMoviesBy()
 void customerMenu()
 {
     START_CUSTOMER:
-    system ("clear");
+    system ("cls");
 
     if (!customerList.empty()) // If customer(s) exist already...
     {
@@ -500,7 +500,7 @@ void customerMenu()
     }
     else // no customers yet
     {
-        system("clear");
+        system ("cls");
 
         cout << "Seems like you haven't added any customers yet. Care to add one?" << endl << endl;
         cout << "1. Register customer" << endl;
@@ -527,7 +527,7 @@ void customerMenu()
 
 void registerCustomer()
 {
-    system("clear");
+    system ("cls");
 
     Customer customer;
 
@@ -541,7 +541,7 @@ void registerCustomer()
 
 void modifyCustomer(unsigned index)
 {
-    system ("clear");
+    system ("cls");
 
     Customer *current = &customerList[index];
 
@@ -591,7 +591,7 @@ unsigned getCustomerIndex()
 void cinemaMenu()
 {
     START_CINEMA:
-    system ("clear");
+    system ("cls");
 
     cout << "1. Slots for the day" << endl;
     cout << "2. Seat Reservations" << endl;
@@ -604,7 +604,7 @@ void cinemaMenu()
     case 1: 
         if (cinema.movieSlots.empty())
         {
-            system ("clear");
+            system ("cls");
 
             cout << "Seems like you don't have any movies in the slot yet. Care to add one?" << endl;
             cout << "1. Add a movie to the slot" << endl;
@@ -626,7 +626,7 @@ void cinemaMenu()
                         }
                         else // if it's out of date, either early or expired
                         {
-                            system ("clear");
+                            system ("cls");
 
                             cout << "Movie is out of date." << endl;
                             cout << "\n1. Return to main menu" << endl;
@@ -645,7 +645,7 @@ void cinemaMenu()
 
         else
         {
-            system ("clear");
+            system ("cls");
 
             cinema.displaySlots();
 
@@ -670,7 +670,7 @@ void cinemaMenu()
                         }
                         else // if it's out of date, either early or expired
                         {
-                            system ("clear");
+                            system ("cls");
 
                             cout << "Movie is out of date." << endl;
                             cout << "\n1. Return to main menu" << endl;
@@ -710,7 +710,7 @@ void cinemaMenu()
         break; // SLOTS FOR THE DAY
     
     case 2:
-        system ("clear");
+        system ("cls");
 
         cout << "Enter the slot number: "; int slotNum; cin >> slotNum;
         if (cinema.exists(slotNum))
@@ -726,7 +726,7 @@ void cinemaMenu()
         }
 
         INPUT11:
-        system ("clear");
+        system ("cls");
         cinema.displayArrangement(slotNum);
 
         cout << "1. Reserve a seat" << endl;
@@ -739,7 +739,7 @@ void cinemaMenu()
         case 1:
             if (customerList.empty())
             {
-                system("clear");
+                system ("cls");
 
                 cout << "There are no customers registered yet." << endl;
                 cout << "1. Return to previous menu" << endl;
@@ -761,7 +761,7 @@ void cinemaMenu()
 
             if (cinema.movieSlots[slotNum-1]->ratingPg.viewerAge > current->age)
             {
-                system ("clear");
+                system ("cls");
 
                 cout << "The customer is too young for this movie." << endl;
                 cout << "1. Return to previous menu" << endl;
@@ -805,8 +805,8 @@ void cinemaMenu()
             cout << "Enter row and column: "; int row, col; cin >> row >> col;
             while (row > 8 || col > 8)
             {
-                    cout << "\nInvalid input, try again.\n" << endl;
-                    cout << "Row and column: "; cin >> row >> col; 
+                cout << "\nInvalid input, try again.\n" << endl;
+                cout << "Row and column: "; cin >> row >> col; 
             }
             
             if (cinema.seatReservations[slotNum - 1][row-1][col-1] != 0)
@@ -849,7 +849,7 @@ bool dateChecksOut(Movie &movie, Date &date)
 
 void dailyProfitReport()
 {
-    system ("clear");
+    system ("cls");
 
     if (cinema.movieSlots.empty())
     {
