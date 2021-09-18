@@ -221,7 +221,7 @@ void movieMenu()
         {
             cout << '|' << setw(30) << movieList[i].name << '|'
                     << setw(10) << movieList[i].genre << '|'
-                    << setw(4) << movieList[i].price << '|' 
+                    << setw(5) << movieList[i].price << '|' 
                     << setw(10) << to_string(movieList[i].entryDate.day) + '/'
                                         + to_string(movieList[i].entryDate.month) + '/'
                                         + to_string(movieList[i].entryDate.year) << '|'
@@ -613,6 +613,13 @@ void cinemaMenu()
             switch (choice)
             {
             case 1: {
+                if (cinema.movieSlots.size() + 1 > cinema.movieCount) // If slots are full
+                {
+                    cout << "Slots are full." << endl;
+                    cout << "\n1. Return to main menu" << endl;
+                    cout << "\n > "; cin >> choice;
+                    return;
+                }
                 cout << "Enter the name of the movie: ";
                 cin.ignore(); char m_name[30]; cin.getline(m_name, 30);
                 for (int i = 0; i < movieList.size(); i++)
@@ -657,6 +664,13 @@ void cinemaMenu()
             switch(choice)
             {
             case 1: {
+                if (cinema.movieSlots.size() + 1 > cinema.movieCount) // If slots are full
+                {
+                    cout << "Slots are full." << endl;
+                    cout << "\n1. Return to main menu" << endl;
+                    cout << "\n > "; cin >> choice;
+                    return;
+                }
                 cout << "Enter the name of the movie: ";
                 cin.ignore(); char m_name[30]; cin.getline(m_name, 30);
                 for (int i = 0; i < movieList.size(); i++)
@@ -829,13 +843,13 @@ bool dateChecksOut(Movie &movie, Date &date)
 {
     // First check if the release date of the movie is or equal to or less than today's date
     if ((movie.entryDate.year <= date.year && movie.entryDate.month <= date.month && movie.entryDate.day <= date.day)
-        || (movie.entryDate.year <= date.year && movie.entryDate.month < date.month && movie.entryDate.day > date.day)
-        || (movie.entryDate.year < date.year && movie.entryDate.month > date.month && movie.entryDate.day > date.day))
+        || (movie.entryDate.year <= date.year && movie.entryDate.month < date.month)
+        || (movie.entryDate.year < date.year))
     {
         // If it passes, it checks if the expiry date of the movie is equal or greater than that of today's date
         if ((movie.exitDate.year >= date.year && movie.exitDate.month >= date.month && movie.exitDate.day >= date.day)
-            || (movie.exitDate.year >= date.year && movie.exitDate.month > date.month && movie.exitDate.day < date.day)
-            || (movie.exitDate.year > date.year && movie.exitDate.month < date.month && movie.exitDate.day < date.day))
+            || (movie.exitDate.year >= date.year && movie.exitDate.month > date.month)
+            || (movie.exitDate.year > date.year))
         {
             return true;
         }
