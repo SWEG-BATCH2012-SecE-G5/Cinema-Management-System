@@ -507,8 +507,7 @@ void customerMenu()
         cout << "2. Return to Main Menu" << endl;
 
         INPUT07:
-        cout << "\n > "; unsigned choice; cin >> choice;
-        switch(choice)
+        switch(getChoice())
         {
         case 1:
             registerCustomer();
@@ -721,7 +720,7 @@ void cinemaMenu()
         {
             cout << "Slot doesn't exist yet." << endl;
             cout << "1. Return to previous menu" << endl;
-            cout << "\n > "; cin >> choice;
+            getChoice();
             goto START_CINEMA;
         }
 
