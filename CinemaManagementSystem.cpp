@@ -185,13 +185,11 @@ int main()
         goto START_MAIN;
         break;           
 
-    case 5: {
+    case 5: 
         cout << "\nClosing..." << endl;
-        
         dumpMovies();
         dumpCustomers();
         dumpCinema();
-        }
         break;
     default:
         cout << "\nInvalid input, Try again." << endl;
