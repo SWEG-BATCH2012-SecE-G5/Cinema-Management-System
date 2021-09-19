@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <string>
 #include <string.h>
 #include <vector>
 #include <ctime>
@@ -115,9 +116,12 @@ void registerCustomer();
 void modifyCustomer(unsigned); // Edit a customer's info with a given index
 unsigned getCustomerIndex();
 
+void addSlot();
 bool dateChecksOut(Movie&, Date&);
 
 void dailyProfitReport();
+
+template <typename T> void swapped(T& one, T& other);
 
 // Get todays date first
 time_t t = time(0);
@@ -143,6 +147,11 @@ void dumpCustomers();
 void loadCinema();
 void dumpCinema();
 
+// We need a way to move around the app
+// This function enables us to goto different 
+// labels based on a given integer
+void redirect(int);
+
 int main()
 {
     loadMovies();
@@ -165,35 +174,17 @@ int main()
     INPUT01:
     switch (getChoice())
     {
-    case 1:
-        movieMenu();
-        goto START_MAIN;
-        break;
-
-    case 2:
-        customerMenu();
-        goto START_MAIN;
-        break;
-
-    case 3:
-        cinemaMenu();
-        goto START_MAIN;
-        break;
-
-    case 4:
-        dailyProfitReport();
-        goto START_MAIN;
-        break;           
-
+    case 1: movieMenu(); goto START_MAIN; break;
+    case 2: customerMenu(); goto START_MAIN; break;
+    case 3: cinemaMenu(); goto START_MAIN; break;
+    case 4: dailyProfitReport(); goto START_MAIN; break;           
     case 5: 
         cout << "\nClosing..." << endl;
         dumpMovies();
         dumpCustomers();
         dumpCinema();
         break;
-    default:
-        cout << "\nInvalid input, Try again." << endl;
-        goto INPUT01;
+    default: cout << "\nInvalid input, Try again." << endl; goto INPUT01;
     }
 }
 
@@ -241,11 +232,7 @@ void movieMenu()
         INPUT02:
         switch (getChoice())
         {
-        case 1:
-            registerMovie();
-            goto START_MOVIE;
-            break;
-        
+        case 1: registerMovie(); goto START_MOVIE; break;
         case 2:
             cout << "Enter the name of the movie: "; cin.ignore(); 
             char name[30]; cin.getline(name, 30);
@@ -254,7 +241,7 @@ void movieMenu()
                     modifyMovie(i);
             goto START_MOVIE;
             break;
-        
+
         case 3:
             cout << "Enter the name of the movie: "; cin.ignore(); 
             cin.getline(name, 30);
@@ -263,19 +250,10 @@ void movieMenu()
                     movieList.erase(movieList.begin() + i);
             goto START_MOVIE;
             break;
-        
-        case 4:
-            sortMoviesBy();
-            goto START_MOVIE;
-            break;
 
-        case 5:
-            break;
-
-        default:
-            cout << "Invalid input, try again." << endl;
-            goto INPUT02;
-            break;
+        case 4: sortMoviesBy(); goto START_MOVIE; break;
+        case 5: break;
+        default: cout << "Invalid input, try again." << endl; goto INPUT02; break;
         }
     }
     else // no movies yet
@@ -289,17 +267,9 @@ void movieMenu()
         INPUT03:
         switch(getChoice())
         {
-        case 1:
-            registerMovie();
-            goto START_MOVIE;
-            break;
-        
-        case 2:
-            break;
-        
-        default:
-            cout << "Invalid input, try again." << endl;
-            goto INPUT03;
+        case 1: registerMovie(); goto START_MOVIE;break;
+        case 2: break;
+        default: cout << "Invalid input, try again." << endl; goto INPUT03;
         }
     }
 }
@@ -345,40 +315,22 @@ void modifyMovie(unsigned index)
     INPUT04:
     switch(getChoice())
     {
-    case 1:
-        cout << "New name: "; 
-        cin.ignore(); cin.getline(current->name, 30);
-        break;
-    
-    case 2:
-        cout << "New genre: "; cin >> current->genre;
-        break;
-    
-    case 3:
-        cout << "New price: "; cin >> current->price;
-        break;
-    
+    case 1: cout << "New name: "; cin.ignore(); cin.getline(current->name, 30); break;
+    case 2: cout << "New genre: "; cin >> current->genre; break;
+    case 3: cout << "New price: "; cin >> current->price; break;
     case 4:
         cout << "Release day, month, year: ";
         cin >> current->entryDate.day >> current->entryDate.month >> current->entryDate.year;
         break;
-    
     case 5:
         cout << "Expiry day, month, year: ";
         cin >> current->exitDate.day >> current->exitDate.month >> current->exitDate.year;
         break;
-    
     case 6:
         cout << "Viewer rating and PG: "; cin >> current->ratingPg.movieRating >> current->ratingPg.viewerAge;
         break;
-    
-    case 7:
-        return;
-        break;
-    
-    default:
-        cout << "Invalid input, try again." << endl;
-        goto INPUT04;
+    case 7: break;
+    default: cout << "Invalid input, try again." << endl; goto INPUT04;
     }
 
     // Make the current pointer invalid, since it deletes what it points to
@@ -401,43 +353,26 @@ void sortMoviesBy()
     case 1:
         for (int i = 0; i < movieList.size(); i++)
             for (int j = 0; j < i; j++)
-                if (strcmp(movieList[i].name, movieList[j].name) < 0)
-                {
-                    auto temp = movieList[i];
-                    movieList[i] = movieList[j];
-                    movieList[j] = temp;
-                }
+                if (strcmp((movieList[i].name), movieList[j].name) < 0)
+                    swapped(movieList[i], movieList[j]);
         break;
     
     case 2:
         for (int i = 0; i < movieList.size(); i++)
             for (int j = 0; j < i; j++)
                 if (strcmp(movieList[i].genre, movieList[j].genre) < 0)
-                {
-                    auto temp = movieList[i];
-                    movieList[i] = movieList[j];
-                    movieList[j] = temp;
-                }
+                    swapped(movieList[i], movieList[j]);
         break;
 
     case 3:
         for (int i = 0; i < movieList.size(); i++)
             for (int j = 0; j < i; j++)
                 if (movieList[i].price < movieList[j].price)
-                {
-                    auto temp = movieList[i];
-                    movieList[i] = movieList[j];
-                    movieList[j] = temp;
-                }
+                    swapped(movieList[i], movieList[j]);
         break;
 
-    case 4:
-        break;
-
-    default:
-        cout << "Invalid input, try again." << endl;
-        goto INPUT05;
-        break;
+    case 4: break;
+    default: cout << "Invalid input, try again." << endl; goto INPUT05; break;
     }
 }
 // MOVIE MENU ENDS
@@ -471,29 +406,11 @@ void customerMenu()
         INPUT06:
         switch (getChoice())
         {
-        case 1:
-            registerCustomer();
-            goto START_CUSTOMER;
-            break;
-        
-        case 2:
-            modifyCustomer(getCustomerIndex());
-            goto START_CUSTOMER;
-            break;
-        
-        case 3:
-            customerList.erase(customerList.begin() + getCustomerIndex());
-            goto START_CUSTOMER;
-            break;
-
-        case 4:
-            return;
-            break;
-
-        default:
-            cout << "Invalid input, try again." << endl;
-            goto INPUT06;
-            break;
+        case 1: registerCustomer(); goto START_CUSTOMER; break;
+        case 2: modifyCustomer(getCustomerIndex()); goto START_CUSTOMER; break;
+        case 3: customerList.erase(customerList.begin() + getCustomerIndex()); goto START_CUSTOMER; break;
+        case 4: break;
+        default: cout << "Invalid input, try again." << endl; goto INPUT06;
         }
     }
     else // no customers yet
@@ -507,17 +424,9 @@ void customerMenu()
         INPUT07:
         switch(getChoice())
         {
-        case 1:
-            registerCustomer();
-            goto START_CUSTOMER;
-            break;
-        
-        case 2:
-            break;
-        
-        default:
-            cout << "Invalid input, try again." << endl;
-            goto INPUT07;
+        case 1: registerCustomer(); goto START_CUSTOMER; break;
+        case 2: break;
+        default: cout << "Invalid input, try again." << endl; goto INPUT07;
         }
     }
 }
@@ -532,6 +441,10 @@ void registerCustomer()
     cin.ignore(); cin.getline(customer.name, 30);
     cout << "Enter customer age: "; cin >> customer.age;
     customer.id = customerList.size() + 1000;
+
+    // To avoid ID duplication in case of customer deletion
+    while (customer.id == customerList[customerList.size() - 1].id)
+        customer.id++;
 
     customerList.push_back(customer);
 }
@@ -552,23 +465,11 @@ void modifyCustomer(unsigned index)
 
     switch(choice)
     {
-    case 1:
-        cout << "New name: "; cin >> current->name;
-        break;
-    
-    case 2:
-        cout << "New age: "; cin >> current->age;
-        break;
-    
-    case 3:
-        return;
-        break;
-    
-    default:
-        cout << "Invalid input, try again." << endl;
-        goto INPUT08;
+    case 1: cout << "New name: "; cin >> current->name; break;
+    case 2: cout << "New age: "; cin >> current->age; break;
+    case 3: break;
+    default: cout << "Invalid input, try again." << endl; goto INPUT08;
     }
-
     // Make the current pointer invalid, lest it modifies
     // the actual data
     current = nullptr;
@@ -610,40 +511,8 @@ void cinemaMenu()
             cout << "\n > "; cin >> choice;
             switch (choice)
             {
-            case 1: {
-                if (cinema.movieSlots.size() + 1 > cinema.movieCount) // If slots are full
-                {
-                    cout << "Slots are full." << endl;
-                    cout << "\n1. Return to main menu" << endl;
-                    cout << "\n > "; cin >> choice;
-                    return;
-                }
-                cout << "Enter the name of the movie: ";
-                cin.ignore(); char m_name[30]; cin.getline(m_name, 30);
-                for (int i = 0; i < movieList.size(); i++)
-                {
-                    if (strcmp(movieList[i].name, m_name) == 0)
-                    {
-                        if (dateChecksOut(movieList[i], today_date))
-                        {
-                            cinema.movieSlots.push_back(make_shared<Movie>(movieList[i]));
-                        }
-                        else // if it's out of date, either early or expired
-                        {
-                            system ("cls");
-
-                            cout << "Movie is out of date." << endl;
-                            cout << "\n1. Return to main menu" << endl;
-                            cout << "\n > "; cin >> choice;
-                            return;
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-            default:
-                break;
+            case 1: addSlot(); break;
+            default: break;
             }
         }
 
@@ -661,38 +530,7 @@ void cinemaMenu()
 
             switch(choice)
             {
-            case 1: {
-                if (cinema.movieSlots.size() + 1 > cinema.movieCount) // If slots are full
-                {
-                    cout << "Slots are full." << endl;
-                    cout << "\n1. Return to main menu" << endl;
-                    cout << "\n > "; cin >> choice;
-                    return;
-                }
-                cout << "Enter the name of the movie: ";
-                cin.ignore(); char m_name[30]; cin.getline(m_name, 30);
-                for (int i = 0; i < movieList.size(); i++)
-                {
-                    if (strcmp(movieList[i].name, m_name) == 0)
-                    {
-                        if (dateChecksOut(movieList[i], today_date))
-                        {
-                            cinema.movieSlots.push_back(make_shared<Movie>(movieList[i]));
-                        }
-                        else // if it's out of date, either early or expired
-                        {
-                            system ("cls");
-
-                            cout << "Movie is out of date." << endl;
-                            cout << "\n1. Return to main menu" << endl;
-                            cout << "\n > "; cin >> choice;
-                            return;
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
+            case 1: addSlot(); break;
             case 2: {
                 cout << "Enter the name of the movie: ";
                 cin.ignore(); char name[30]; cin.getline(name, 30);
@@ -709,12 +547,8 @@ void cinemaMenu()
                         cinema.seatReservations[del_slot][i][j] = 0;
                 break;
             }
-            case 3: 
-                break;
-            
-            default: 
-                cout << "Invalid input, try again." << endl;
-                goto INPUT10;
+            case 3: break;
+            default: cout << "Invalid input, try again." << endl; goto INPUT10;
             }
 
         }
@@ -828,12 +662,8 @@ void cinemaMenu()
         }
         break; // SEAT RESERVATIONS
     
-    case 3:
-        break;
-
-    default:
-        cout << "Invalid input, try again." << endl;
-        goto INPUT09;
+    case 3: break;
+    default: cout << "Invalid input, try again." << endl; goto INPUT09;
     }
 }
 
@@ -905,10 +735,51 @@ void dailyProfitReport()
     return;
 }
 
+void addSlot()
+{
+    unsigned choice;
+    if (cinema.movieSlots.size() + 1 > cinema.movieCount) // If slots are full
+    {
+        cout << "Slots are full." << endl;
+        cout << "\n1. Return to main menu" << endl;
+        cout << "\n > "; cin >> choice;
+        return;
+    }
+    cout << "Enter the name of the movie: ";
+    cin.ignore(); char m_name[30]; cin.getline(m_name, 30);
+    for (int i = 0; i < movieList.size(); i++)
+    {
+        if (strcmp(movieList[i].name, m_name) == 0)
+        {
+            if (dateChecksOut(movieList[i], today_date))
+            {
+                cinema.movieSlots.push_back(make_shared<Movie>(movieList[i]));
+            }
+            else // if it's out of date, either early or expired
+            {
+                system ("cls");
+
+                cout << "Movie is out of date." << endl;
+                cout << "\n1. Return to main menu" << endl;
+                cout << "\n > "; cin >> choice;
+                return;
+            }
+            break;
+        }
+    }
+}
+
 unsigned getChoice()
 {
     cout << "\n > "; unsigned choice; cin >> choice;
     return choice;
+}
+
+template <typename T> void swapped(T& one, T& other)
+{
+    T temp = one;
+    one = other;
+    other = temp;
 }
 
 // MOVIE MANAGEMENT BEGINS
