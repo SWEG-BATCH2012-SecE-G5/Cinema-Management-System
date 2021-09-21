@@ -147,17 +147,11 @@ void dumpCustomers();
 void loadCinema();
 void dumpCinema();
 
-// We need a way to move around the app
-// This function enables us to goto different 
-// labels based on a given integer
-void redirect(int);
-
 int main()
 {
     loadMovies();
     loadCustomers();
     loadCinema();
-
     START_MAIN:
     system ("cls");
 
@@ -179,7 +173,7 @@ int main()
     case 3: cinemaMenu(); goto START_MAIN; break;
     case 4: dailyProfitReport(); goto START_MAIN; break;           
     case 5: 
-        cout << "\nClosing..." << endl;
+        cout << "\nClosing..." << endl; 
         dumpMovies();
         dumpCustomers();
         dumpCinema();
@@ -268,7 +262,7 @@ void movieMenu()
         switch(getChoice())
         {
         case 1: registerMovie(); goto START_MOVIE;break;
-        case 2: break;
+        case 2: dumpMovies(); break;
         default: cout << "Invalid input, try again." << endl; goto INPUT03;
         }
     }
@@ -364,7 +358,7 @@ void sortMoviesBy()
                     swapped(movieList[i], movieList[j]);
         break;
 
-    case 3:
+    case 3: 
         for (int i = 0; i < movieList.size(); i++)
             for (int j = 0; j < i; j++)
                 if (movieList[i].price < movieList[j].price)
@@ -443,8 +437,9 @@ void registerCustomer()
     customer.id = customerList.size() + 1000;
 
     // To avoid ID duplication in case of customer deletion
-    while (customer.id == customerList[customerList.size() - 1].id)
-        customer.id++;
+    if (customerList.size())
+        while (customer.id == customerList[customerList.size() - 1].id)
+            customer.id++;
 
     customerList.push_back(customer);
 }
@@ -636,12 +631,8 @@ void cinemaMenu()
                     cout << "\n > "; cin >> choice;
                     switch (choice)
                     {
-                    case 1:
-                        goto INPUT12;
-                        break;
-                    
-                    default:
-                        break;
+                    case 1: goto INPUT12; break;
+                    default: break;
                     }
                 }
             }
@@ -785,7 +776,7 @@ template <typename T> void swapped(T& one, T& other)
 // MOVIE MANAGEMENT BEGINS
 void loadMovies()
 {
-   fstream movieLoad("movies.csv", ios::in);
+   fstream movieLoad("movies.txt", ios::in);
     
     if (!isEmpty(movieLoad))
     {
@@ -802,7 +793,7 @@ void loadMovies()
             {
                 // We are going to have to manually change each
                 // value to its respective data type if needed
-                string separator = ", ";
+                string separator = ",,";
                 size_t start = line.find_first_not_of(separator);   // First word start index
                 while (start != string::npos)                     // Find the words
                 {
@@ -830,20 +821,20 @@ void loadMovies()
 
 void dumpMovies()
 {
-    ofstream movieDump("movies.csv", ios::out | ios::trunc);
+    ofstream movieDump("movies.txt", ios::out | ios::trunc);
 
     for (auto movie : movieList)
     {
-        movieDump << movie.name << ", "
-                    << movie.genre << ", "
-                    << movie.price << ", "
-                    << movie.entryDate.day << ", "
-                    << movie.entryDate.month << ", "
-                    << movie.entryDate.year << ", "
-                    << movie.exitDate.day << ", "
-                    << movie.exitDate.month << ", "
-                    << movie.exitDate.year << ", "
-                    << movie.ratingPg.movieRating << ", "
+        movieDump << movie.name << ",,"
+                    << movie.genre << ",,"
+                    << movie.price << ",,"
+                    << movie.entryDate.day << ",,"
+                    << movie.entryDate.month << ",,"
+                    << movie.entryDate.year << ",,"
+                    << movie.exitDate.day << ",,"
+                    << movie.exitDate.month << ",,"
+                    << movie.exitDate.year << ",,"
+                    << movie.ratingPg.movieRating << ",,"
                     << movie.ratingPg.viewerAge << '\n';
     }
     movieDump.close();
@@ -853,7 +844,7 @@ void dumpMovies()
 // CUSTOMER MANAGEMENT BEGINS
 void loadCustomers()
 {
-    fstream customerLoad("customers.csv", ios::in);
+    fstream customerLoad("customers.txt", ios::in);
 
     // This is done in a similar fasion to that of movies
     if (!isEmpty(customerLoad))
@@ -870,7 +861,7 @@ void loadCustomers()
             {
                 // We are going to have to manually change each
                 // value to its respective data type if needed
-                string separator = ", ";
+                string separator = ",,";
                 size_t start = line.find_first_not_of(separator);   // First word start index
                 while (start != string::npos)                     // Find the words
                 {
@@ -896,12 +887,12 @@ void loadCustomers()
 
 void dumpCustomers()
 {
-    ofstream customerDump("customers.csv", ios::out);
+    ofstream customerDump("customers.txt", ios::out | ios::trunc);
 
     for (auto customer : customerList)
     {
-        customerDump << customer.name << ", "
-                        << customer.age << ", "
+        customerDump << customer.name << ",,"
+                        << customer.age << ",,"
                         << customer.id << '\n';
     }
 
@@ -912,7 +903,7 @@ void dumpCustomers()
 // CINEMA MANAGEMENT BEGINS
 void loadCinema()
 {
-    fstream cinemaLoad("slots.csv", ios::in);
+    fstream cinemaLoad("slots.txt", ios::in);
     
     if (!isEmpty(cinemaLoad))
     {
@@ -929,7 +920,7 @@ void loadCinema()
             {
                 // We are going to have to manually change each
                 // value to its respective data type if needed
-                string separator = ", ";
+                string separator = ",,";
                 size_t start = line.find_first_not_of(separator);   // First word start index
                 while (start != string::npos)                     // Find the words
                 {
@@ -954,7 +945,7 @@ void loadCinema()
     }
     cinemaLoad.close();
 
-    cinemaLoad.open("reservations.csv");
+    cinemaLoad.open("reservations.txt");
     if (!isEmpty(cinemaLoad))
     {
         for (int i = 0; i < 3; i++)
@@ -971,25 +962,25 @@ void loadCinema()
 
 void dumpCinema()
 {
-    ofstream cinemaDump("slots.csv", ios::out);
+    ofstream cinemaDump("slots.txt", ios::out);
 
     for (auto moviep : cinema.movieSlots)
     {
-        cinemaDump << moviep->name << ", "
-                    << moviep->genre << ", "
-                    << moviep->price << ", "
-                    << moviep->entryDate.day << ", "
-                    << moviep->entryDate.month << ", "
-                    << moviep->entryDate.year << ", "
-                    << moviep->exitDate.day << ", "
-                    << moviep->exitDate.month << ", "
-                    << moviep->exitDate.year << ", "
-                    << moviep->ratingPg.movieRating << ", "
+        cinemaDump << moviep->name << ",,"
+                    << moviep->genre << ",,"
+                    << moviep->price << ",,"
+                    << moviep->entryDate.day << ",,"
+                    << moviep->entryDate.month << ",,"
+                    << moviep->entryDate.year << ",,"
+                    << moviep->exitDate.day << ",,"
+                    << moviep->exitDate.month << ",,"
+                    << moviep->exitDate.year << ",,"
+                    << moviep->ratingPg.movieRating << ",,"
                     << moviep->ratingPg.viewerAge << '\n';
     }
     cinemaDump.close();
 
-    cinemaDump.open("reservations.csv");
+    cinemaDump.open("reservations.txt");
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 8; j++)
             for (int k = 0; k < 8; k++)
